@@ -35,12 +35,24 @@ const rarityClasses = {
 
 function App() {
   const[wonItem,setWonItem] = useState(null);
+  const[reelItems, setReelItems] = useState([]);
+  const[isSpring, setIsSpinning] = useState(false);
 
   const openCase = () => {
-    const randomIndex = Math.floor(Math.random() * lootTable.length);
-    const newItem = lootTable[randomIndex];
-    setWonItem(newItem);
-  };
+    const itemsForReel = [];
+    for (let i = 0; i < 30; i++) {
+      const randomIndex = Math.floor(Math.random() * lootTable.length);
+      itemsForReel.push(lootTable[randomIndex]);
+    }
+
+  const finalWonItemIndex = Math.floor(Math.random() * lootTable.length);
+  const finalWonItem = lootTable[finalWonItemIndex];
+  itemsForReel[itemsForReel.length - 1] = finalWonItem;
+
+  setReelItems(itemsForReel);
+  setWonItem(finalWonItem);
+
+  }
   
 
 //Definição de classes em forma dinamamica 
@@ -54,14 +66,28 @@ return (
     <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa</h1>
     <p className="text-slate-400 mb-6">Feito com React, Vite & Twind</p>
   </div>
-  {/*Caixa do Item */}
-  <div className={displayBoxClasses}>
-    {wonItem ? (
-      <p className="text-2xl font-semibold">{wonItem.name.App}</p>
-    ) : (
-      <p className="text-6xl text-slate-500">?</p>
-    )}
+
+  {/* Roleta */}
+  <div className="relative w-full h-32 bg-slate-900/50 rounded-lg overflow-hidden my-6 border-2 border-slate-700">
+  
+  {/*Linha de roleta */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-sky-400"></div>
+
+  {/* Caixa de exibição do item */}
+  <div className="absolute top-0 left-0 h-full flex items-center">
+
+  {reelItems.map((item, index) => (
+    <div key={index} className={`w-28 h-28 flex-shrink-0 mx-2 flex justify-center items-center text-center p-2 rounded-md border-2 ${rarityClasses[item.rarity]}`}>
+
+      <p className="text-sm font-semibold">{item.name}</p>
+    
     </div>
+
+  ))}
+
+  </div>
+
+  </div>
 
     {/*O Botão */}
     <button onClick={openCase} 
