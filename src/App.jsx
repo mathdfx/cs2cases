@@ -91,10 +91,9 @@ function App() {
     <div className="bg-slate-900 text-slate-200 min-h-screen flex items-center justify-center font-sans p-4">
       <div className="bg-slate-800 p-8 rounded-lg shadow-2xl text-center max-w-4xl w-full">
         
-        <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa</h1>
+        <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa v2.0</h1>
         <p className="text-slate-400 mb-6">Construído com Swiper.js e Twind!</p>
 
-        {/* ATUALIZAÇÃO: A roleta e o estado inicial agora estão dentro de um contentor */}
         <div className="relative w-full h-40 mb-6">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-full bg-sky-400 z-10 rounded-full opacity-75 shadow-lg shadow-sky-400/50"></div>
           
