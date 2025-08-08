@@ -91,7 +91,7 @@ function App() {
     <div className="bg-slate-900 text-slate-200 min-h-screen flex items-center justify-center font-sans p-4">
       <div className="bg-slate-800 p-8 rounded-lg shadow-2xl text-center max-w-4xl w-full">
         
-        <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa v2.0</h1>
+        <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa</h1>
         <p className="text-slate-400 mb-6">Construído com Swiper.js e Twind!</p>
 
         <div className="relative w-full h-40 mb-6">
@@ -115,7 +115,7 @@ function App() {
               allowTouchMove={false}
               watchOverflow={true}
               className="h-full"
-              style={{'--swiper-wrapper-transition-timing-function': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'}}
+              style={{'--swiper-wrapper-transition-timing-function': 'cubic-bezier(0.1, 0.7, 0.3, 1)'}}
             >
               {reelItems.map((item) => (
                 <SwiperSlide key={item.uniqueId} className="!w-36">
