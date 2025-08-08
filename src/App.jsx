@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+// Lista de itens com URLs de imagens reais
 const items = [
     { id: 'item-01', name: 'Glock-18 | Azul Fissurado', rarity: 'Mil-Spec Grade', icon_url: 'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1T9s2teqV8NfWfG3WV_uNztOh8Qmeylx9x6mnXyo37eHLCaQ91DsAiQ7FY5xO-kIfhN-Pr4AeL3YsWyn6skGoXueOEyY68/360fx360f' },
     { id: 'item-02', name: 'USP-S | Córtex', rarity: 'Mil-Spec Grade', icon_url: 'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSI-WsG3SA_u1jpN5kSi26gBBp4D7TwoqsJC6faQUiWcchQrECu0Kwk4K2P-zltVHbj44RnyT2jH8b5zErvbgF1pSM3w/360fx360f' },
@@ -17,11 +18,11 @@ const lootTable = [];
 items.forEach(item => {
   let weight = 1;
   switch (item.rarity) {
-    case 'Mil-Spec Grade': weight = 2673; break; // ~80% de chance no total
-    case 'Restricted': weight = 800; break;     // ~16% de chance no total
-    case 'Classified': weight = 320; break;     // ~3.2% de chance
-    case 'Covert': weight = 60; break;        // ~0.6% de chance
-    case 'Exceedingly Rare': weight = 1; break; // ~0.01% de chance (1 em 10.000)
+    case 'Mil-Spec Grade': weight = 2673; break;
+    case 'Restricted': weight = 800; break;
+    case 'Classified': weight = 320; break;
+    case 'Covert': weight = 60; break;
+    case 'Exceedingly Rare': weight = 1; break;
     default: weight = 1;
   }
   for (let i = 0; i < weight; i++) {
@@ -93,32 +94,31 @@ function App() {
         <h1 className="text-4xl font-bold text-sky-400 mb-2">Simulador de Caixa</h1>
         <p className="text-slate-400 mb-6">Construído com Swiper.js e Twind!</p>
 
-        <div className="relative w-full mb-6">
+        {/* ATUALIZAÇÃO: A roleta e o estado inicial agora estão dentro de um contentor */}
+        <div className="relative w-full h-40 mb-6">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-full bg-sky-400 z-10 rounded-full opacity-75 shadow-lg shadow-sky-400/50"></div>
-
-          <Swiper
-            ref={swiperRef}
-            spaceBetween={10}
-            slidesPerView="auto"
-            centeredSlides={true}
-            allowTouchMove={false}
-            watchOverflow={true}
-            className="h-40"
-            style={{
-              '--swiper-wrapper-transition-timing-function': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }}
-          >
-            {reelItems.length === 0 ? (
-              <SwiperSlide className="flex items-center justify-center">
-                <div className="h-36 w-36 flex items-center justify-center text-slate-500 border-2 border-dashed border-slate-600 rounded-lg">
-                  <div className="text-center">
-                    <div className="text-3xl mb-2">🎁</div>
-                    <div className="text-sm">Clique para abrir!</div>
-                  </div>
+          
+          {reelItems.length === 0 ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="h-36 w-36 flex items-center justify-center text-slate-500 border-2 border-dashed border-slate-600 rounded-lg">
+                <div className="text-center">
+                  <div className="text-3xl mb-2">🎁</div>
+                  <div className="text-sm">Clique para abrir!</div>
                 </div>
-              </SwiperSlide>
-            ) : (
-              reelItems.map((item, index) => (
+              </div>
+            </div>
+          ) : (
+            <Swiper
+              ref={swiperRef}
+              spaceBetween={10}
+              slidesPerView="auto"
+              centeredSlides={true}
+              allowTouchMove={false}
+              watchOverflow={true}
+              className="h-full"
+              style={{'--swiper-wrapper-transition-timing-function': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'}}
+            >
+              {reelItems.map((item) => (
                 <SwiperSlide key={item.uniqueId} className="!w-36">
                   <div 
                     className={`h-36 w-36 flex flex-col items-center justify-center rounded-lg p-3 text-center transition-all duration-300 border-2
@@ -128,28 +128,25 @@ function App() {
                                 }
                                 ${rarityClasses[item.rarity] || 'border-gray-400 bg-gray-900/20'}`}
                   >
-                    <img
-                      src={item.icon_url}
-                      alt={`Imagem de ${item.name}`}
-                      className="w-24 h-24 object-contain mb-2"
-                    />
-                    <p className="text-xs font-semibold leading-tight line-clamp-2">
-                      {item.name}
-                    </p>
+                    <img src={item.icon_url} alt={item.name} className="w-24 h-24 object-contain mb-2"/>
+                    <p className="text-xs font-semibold leading-tight line-clamp-2">{item.name}</p>
                   </div>
                 </SwiperSlide>
-              ))
-            )}
-          </Swiper>
+              ))}
+            </Swiper>
+          )}
         </div>
 
         {wonItem && !isSpinning && (
           <div className="mb-6 p-6 bg-gradient-to-r from-yellow-900/30 to-orange-900/30 rounded-lg border-2 border-yellow-500 animate-pulse">
             <h2 className="text-2xl font-bold text-yellow-400 mb-4">🎉 Parabéns! Você ganhou:</h2>
-            <div className="bg-slate-700 p-4 rounded-lg inline-block">
-              <div className="text-xl font-bold text-white mb-1">{wonItem.name}</div>
-              <div className={`text-sm font-semibold ${rarityClasses[wonItem.rarity]?.split(' ')[2] || 'text-gray-400'}`}>
-                {wonItem.rarity}
+            <div className="bg-slate-700 p-4 rounded-lg inline-flex flex-col items-center gap-4">
+              <img src={wonItem.icon_url} alt={wonItem.name} className="w-28 h-28 object-contain"/>
+              <div>
+                <div className="text-xl font-bold text-white mb-1">{wonItem.name}</div>
+                <div className={`text-sm font-semibold ${rarityClasses[wonItem.rarity]?.split(' ')[2] || 'text-gray-400'}`}>
+                  {wonItem.rarity}
+                </div>
               </div>
             </div>
           </div>
