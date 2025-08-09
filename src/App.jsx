@@ -22,7 +22,7 @@ items.forEach(item => {
     case 'Restricted': weight = 800; break;
     case 'Classified': weight = 320; break;
     case 'Covert': weight = 60; break;
-    case 'Exceedingly Rare': weight = 1; break;
+    case 'Exceedingly Rare': weight = 10; break;
     default: weight = 1;
   }
   for (let i = 0; i < weight; i++) {
